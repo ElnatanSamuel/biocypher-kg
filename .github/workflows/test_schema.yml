@@ -7,12 +7,20 @@ on:
       - "biocypher_metta/adapters/**"
       - "config/adapters_config_sample.yaml"
       - "test/test.py"
+      - "config/schema_config.yaml"
+      - "config/biocypher_config.yaml"
+      - "aux_files/sample_dbsnp_rsids.pkl"
+      - "aux_files/sample_dbsnp_pos.pkl"
   pull_request:
     branches: ["main"]
     paths:
       - "biocypher_metta/adapters/**"
       - "config/adapters_config_sample.yaml"
       - "test/test.py"
+      - "config/schema_config.yaml"
+      - "config/biocypher_config.yaml"
+      - "aux_files/sample_dbsnp_rsids.pkl"
+      - "aux_files/sample_dbsnp_pos.pkl"
 
 jobs:
   test:

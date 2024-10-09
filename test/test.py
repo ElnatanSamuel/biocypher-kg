@@ -48,8 +48,6 @@ def parse_schema(bcy):
 
 @pytest.fixture(scope="session")
 def setup_class(request):
-
-    # Load schema config
     try:
         # Load schema config
         bcy = BioCypher(
