@@ -53,8 +53,8 @@ def setup_class(request):
     try:
         # Load schema config
         bcy = BioCypher(
-            schema_config_path='../config/schema_config.yaml',
-            biocypher_config_path='../config/biocypher_config.yaml'
+            schema_config_path='config/schema_config.yaml',
+            biocypher_config_path='config/biocypher_config.yaml'
         )
         node_labels, edges_schema = parse_schema(bcy) 
     except FileNotFoundError as e:
