@@ -2,12 +2,17 @@ name: Test Adapters Against Schema
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+        paths:
+          - 'biocypher_metta/adapters/**'
+          - 'config/adapters_config_sample.yaml'
+          - 'test/test.py'
   pull_request:
-    branches:
-      - main
-
+    branches: [ "main" ]
+        paths:
+          - 'biocypher_metta/adapters/**'
+          - 'config/adapters_config_sample.yaml'
+          - 'test/test.py'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,4 +33,4 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest test/test.py --adapters-config=config/adapters_config_sample.yaml --dbsnp-rsids=aux_files/sample_dbsnp_rsids.pkl --dbsnp-pos=aux_files/sample_dbsnp_pos.pkl -v
+          pytest test/test.py --adapters-config=./config/adapters_config_sample.yaml --dbsnp-rsids=./aux_files/sample_dbsnp_rsids.pkl --dbsnp-pos=./aux_files/sample_dbsnp_pos.pkl -v
