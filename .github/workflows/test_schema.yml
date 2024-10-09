@@ -2,17 +2,18 @@ name: Test Adapters Against Schema
 
 on:
   push:
-    branches: [ "main" ]
-        paths:
-          - 'biocypher_metta/adapters/**'
-          - 'config/adapters_config_sample.yaml'
-          - 'test/test.py'
+    branches: ["main"]
+    paths:
+      - "biocypher_metta/adapters/**"
+      - "config/adapters_config_sample.yaml"
+      - "test/test.py"
   pull_request:
-    branches: [ "main" ]
-        paths:
-          - 'biocypher_metta/adapters/**'
-          - 'config/adapters_config_sample.yaml'
-          - 'test/test.py'
+    branches: ["main"]
+    paths:
+      - "biocypher_metta/adapters/**"
+      - "config/adapters_config_sample.yaml"
+      - "test/test.py"
+
 jobs:
   test:
     runs-on: ubuntu-latest
