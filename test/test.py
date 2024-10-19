@@ -5,6 +5,8 @@ import yaml
 import importlib
 import logging
 import os
+import sys
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -19,7 +21,6 @@ def parse_schema(bcy):
     for k, v in schema.items():
         if v["represented_as"] == "edge": 
             edge_type = convert_input_labels(k)
-            #Check if there are source and target fields
             source_type = v.get("source", None)
             target_type = v.get("target", None)
             if source_type is not None and target_type is not None:
@@ -49,7 +50,6 @@ def parse_schema(bcy):
 @pytest.fixture(scope="session")
 def setup_class(request):
     try:
-        # Load schema config
         bcy = BioCypher(
             schema_config_path='config/schema_config.yaml',
             biocypher_config_path='config/biocypher_config.yaml'
@@ -92,31 +92,29 @@ class TestBiocypherKG:
         If any adapter produces a node label not present in the schema, the test will fail with an assertion error.
         """
         node_labels, edges_schema, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict = setup_class
-        # print("adapters_config:", adapters_config)
         for adapter_name, config in adapters_config.items():
-            if isinstance(config, dict):
-                if config.get('represented_as') ==  'node':
-                    adapter_module = importlib.import_module(config['adapter']['module'])
-                    adapter_class = getattr(adapter_module, config['adapter']['cls'])
+            if config["nodes"]:
+                adapter_module = importlib.import_module(config['adapter']['module'])
+                adapter_class = getattr(adapter_module, config['adapter']['cls'])
                     
-                    # Add write_properties and add_provenance to the arguments
-                    adapter_args = config['adapter']['args'].copy()
-                    if "dbsnp_rsid_map" in adapter_args: #this for dbs that use grch37 assembly and to map grch37 to grch38
+                # Add write_properties and add_provenance to the arguments
+                adapter_args = config['adapter']['args'].copy()
+                if "dbsnp_rsid_map" in adapter_args: #this for dbs that use grch37 assembly and to map grch37 to grch38
                         adapter_args["dbsnp_rsid_map"] = dbsnp_rsids_dict
-                    if "dbsnp_pos_map" in adapter_args:
-                        adapter_args["dbsnp_pos_map"] = dbsnp_pos_dict
-                    adapter_args['write_properties'] = True
-                    adapter_args['add_provenance'] = True
+                if "dbsnp_pos_map" in adapter_args:
+                    adapter_args["dbsnp_pos_map"] = dbsnp_pos_dict
+                adapter_args['write_properties'] = True
+                adapter_args['add_provenance'] = True
                     
-                    adapter = adapter_class(**adapter_args)
+                adapter = adapter_class(**adapter_args)
                 
-                    # Get a sample node from the adapter
-                    sample_node = next(adapter.get_nodes(), None)
-                    assert sample_node, f"No nodes found for adapter '{adapter_name}'"
+                # Get a sample node from the adapter
+                sample_node = next(adapter.get_nodes(), None)
+                assert sample_node, f"No nodes found for adapter '{adapter_name}'"
                 
-                    _, node_label, node_props = sample_node
-                    label = convert_input_labels(node_label)
-                    assert label in node_labels, f"Node label '{label}' from adapter '{adapter_name}' not found in schema"
+                _, node_label, node_props = sample_node
+                label = convert_input_labels(node_label)
+                assert label in node_labels, f"Node label '{label}' from adapter '{adapter_name}' not found in schema"
                 
                 #TODO Check if node properties are defined in schema
                 # schema_props = schema[label].get('properties', {})
@@ -134,28 +132,27 @@ class TestBiocypherKG:
         """
         node_labels, edges_schema, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict = setup_class
         for adapter_name, config in adapters_config.items():
-            if isinstance(config, dict):
-                if config.get('represented_as') == 'edge':
-                    adapter_module = importlib.import_module(config['adapter']['module'])
-                    adapter_class = getattr(adapter_module, config['adapter']['cls'])
+            if config['edges']:
+                adapter_module = importlib.import_module(config['adapter']['module'])
+                adapter_class = getattr(adapter_module, config['adapter']['cls'])
                     
                     # Add write_properties and add_provenance to the arguments
-                    adapter_args = config['adapter']['args'].copy()
-                    if "dbsnp_rsid_map" in adapter_args: #this for dbs that use grch37 assembly and to map grch37 to grch38
-                        adapter_args["dbsnp_rsid_map"] = dbsnp_rsids_dict
-                    if "dbsnp_pos_map" in adapter_args:
-                        adapter_args["dbsnp_pos_map"] = dbsnp_pos_dict
-                    adapter_args['write_properties'] = True
-                    adapter_args['add_provenance'] = True
+                adapter_args = config['adapter']['args'].copy()
+                if "dbsnp_rsid_map" in adapter_args: #this for dbs that use grch37 assembly and to map grch37 to grch38
+                    adapter_args["dbsnp_rsid_map"] = dbsnp_rsids_dict
+                if "dbsnp_pos_map" in adapter_args:
+                    adapter_args["dbsnp_pos_map"] = dbsnp_pos_dict
+                adapter_args['write_properties'] = True
+                adapter_args['add_provenance'] = True
                 
-                    adapter = adapter_class(**adapter_args)
+                adapter = adapter_class(**adapter_args)
                 
-                    # Get a sample edge from the adapter
-                    sample_edge = next(adapter.get_edges(), None)
-                    assert sample_edge, f"No edges found for adapter '{adapter_name}'"
+                # Get a sample edge from the adapter
+                sample_edge = next(adapter.get_edges(), None)
+                assert sample_edge, f"No edges found for adapter '{adapter_name}'"
                 
-                    _, _, edge_label, edge_props = sample_edge
-                    assert edge_label.lower() in edges_schema, f"Edge label '{edge_label}' from adapter '{adapter_name}' not found in schema"
+                _, _, edge_label, edge_props = sample_edge
+                assert edge_label.lower() in edges_schema, f"Edge label '{edge_label}' from adapter '{adapter_name}' not found in schema"
                 
                 #TODO Check if edge properties are defined in schema
                 # schema_props = schema[edge_label].get('properties', {})
