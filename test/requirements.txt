@@ -1,10 +1,7 @@
 pytest
 poetry
-pickle
 biocypher
 pytest
 yaml
 importlib
 logging
-os
-sys
