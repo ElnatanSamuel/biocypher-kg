@@ -94,6 +94,7 @@ class TestBiocypherKG:
         node_labels, edges_schema, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict = setup_class
         for adapter_name, config in adapters_config.items():
             if config["nodes"]:
+                sys.path.append(os.path.abspath('./'))
                 adapter_module = importlib.import_module(config['adapter']['module'])
                 adapter_class = getattr(adapter_module, config['adapter']['cls'])
                     
@@ -133,6 +134,7 @@ class TestBiocypherKG:
         node_labels, edges_schema, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict = setup_class
         for adapter_name, config in adapters_config.items():
             if config['edges']:
+                sys.path.append(os.path.abspath('./'))
                 adapter_module = importlib.import_module(config['adapter']['module'])
                 adapter_class = getattr(adapter_module, config['adapter']['cls'])
                     
