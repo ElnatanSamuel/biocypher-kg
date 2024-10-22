@@ -51,4 +51,4 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest ${{ matrix.test_file }} --adapters-config=$ADAPTERS_CONFIG --dbsnp-rsids=$DBSNP_RSIDS --dbsnp-pos=$DBSNP_POS -vv -s
+          poetry run pytest -n auto ${{ matrix.test_file }} --adapters-config=$ADAPTERS_CONFIG --dbsnp-rsids=$DBSNP_RSIDS --dbsnp-pos=$DBSNP_POS -vv -s
