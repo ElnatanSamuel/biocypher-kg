@@ -2,14 +2,19 @@ name: Test Adapters Against Schema
 
 on:
   push:
-    branches: "main"
+    branches:
+      - main
+      - schema
 
   pull_request:
     branches: "main"
+
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        test_file: [test/test.py]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -38,4 +43,4 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest test/test.py --adapters-config=./config/adapters_config_sample.yaml --dbsnp-rsids=./aux_files/sample_dbsnp_rsids.pkl --dbsnp-pos=./aux_files/sample_dbsnp_pos.pkl -v -s
+          poetry run pytest ${{ matrix.test_file }} --adapters-config=./config/adapters_config_sample.yaml --dbsnp-rsids=./aux_files/sample_dbsnp_rsids.pkl --dbsnp-pos=./aux_files/sample_dbsnp_pos.pkl -v -s
