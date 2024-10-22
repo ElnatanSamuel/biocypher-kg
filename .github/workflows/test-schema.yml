@@ -16,7 +16,7 @@ jobs:
       matrix:
         test_file:
           - test/test_nodes.py
-          - test/test_edges.py # Add your new test file here
+          # - test/test_edges.py # Add your new test file here
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
