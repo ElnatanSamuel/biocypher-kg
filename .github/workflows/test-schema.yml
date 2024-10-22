@@ -16,7 +16,7 @@ jobs:
       matrix:
         test_file:
           - test/test_nodes.py
-          # - test/test_edges.py # Add your new test file here
+          # - test/test_edges.py
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -41,8 +41,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry install
+          poetry install --no-interaction --no-ansi --no-dev  # Skip dev dependencies if not needed
+
+      - name: Set environment variables
+        run: |
+          echo "ADAPTERS_CONFIG=./config/adapters_config_sample.yaml" >> $GITHUB_ENV
+          echo "DBSNP_RSIDS=./aux_files/sample_dbsnp_rsids.pkl" >> $GITHUB_ENV
+          echo "DBSNP_POS=./aux_files/sample_dbsnp_pos.pkl" >> $GITHUB_ENV
 
       - name: Run tests
         run: |
-          poetry run pytest ${{ matrix.test_file }} --adapters-config=./config/adapters_config_sample.yaml --dbsnp-rsids=./aux_files/sample_dbsnp_rsids.pkl --dbsnp-pos=./aux_files/sample_dbsnp_pos.pkl -vv -s
+          poetry run pytest ${{ matrix.test_file }} --adapters-config=$ADAPTERS_CONFIG --dbsnp-rsids=$DBSNP_RSIDS --dbsnp-pos=$DBSNP_POS -vv -s
