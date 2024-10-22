@@ -41,7 +41,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry install --no-interaction --no-ansi --no-dev  # Skip dev dependencies if not needed
+          poetry install --no-interaction --no-ansi # Skip dev dependencies if not needed
 
       - name: Set environment variables
         run: |
