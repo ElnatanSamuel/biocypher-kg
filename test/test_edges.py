@@ -1,6 +1,6 @@
 import importlib
 import pytest
-from utils import setup_class, convert_input_labels  # Import from utils
+from utils import setup_class, convert_input_labels
 
 @pytest.mark.filterwarnings("ignore")
 class TestBiocypherEdge:

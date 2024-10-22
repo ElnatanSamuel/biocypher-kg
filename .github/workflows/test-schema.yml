@@ -45,4 +45,4 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest ${{ matrix.test_file }} --adapters-config=./config/adapters_config_sample.yaml --dbsnp-rsids=./aux_files/sample_dbsnp_rsids.pkl --dbsnp-pos=./aux_files/sample_dbsnp_pos.pkl -v -s
+          poetry run pytest ${{ matrix.test_file }} --adapters-config=./config/adapters_config_sample.yaml --dbsnp-rsids=./aux_files/sample_dbsnp_rsids.pkl --dbsnp-pos=./aux_files/sample_dbsnp_pos.pkl -vv -s
