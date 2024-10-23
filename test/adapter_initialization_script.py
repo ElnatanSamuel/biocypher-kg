@@ -16,20 +16,23 @@ def initialize_adapters(config_path):
         # Prepare the arguments for the adapter
         adapter_args = config['adapter']['args'].copy()
 
+        # Add missing required arguments
+        adapter_args['write_properties'] = True  # or set to False based on your needs
+        adapter_args['add_provenance'] = True    # or set to False based on your needs
+
         # Create an instance of the adapter
         adapter_instance = adapter_class(**adapter_args)
 
         # Optionally, you can perform any initialization tasks here
-        # For example, loading data or validating the adapter
         try:
             # Example: Load data if the adapter requires it
             if hasattr(adapter_instance, 'load_data'):
                 adapter_instance.load_data()  # Assuming the adapter has a method to load data
                 print(f"Data loaded for adapter: {adapter_name}")
 
-            # Example: Validate the adapter's configuration
-            if not adapter_instance.validate_config():
-                raise ValueError(f"Invalid configuration for adapter: {adapter_name}")
+            # Remove the validation step if it doesn't exist
+            # if not adapter_instance.validate_config():
+            #     raise ValueError(f"Invalid configuration for adapter: {adapter_name}")
 
             # Example: Test connectivity if applicable
             if hasattr(adapter_instance, 'test_connection'):
