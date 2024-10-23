@@ -9,6 +9,7 @@ gencode_gene:
   outdir: gencode/gene
   nodes: True
   edges: False
+  load_initially: true
 
 gencode_transcripts:
   adapter:
@@ -22,6 +23,7 @@ gencode_transcripts:
   outdir: gencode/transcript
   nodes: True
   edges: False
+  load_initially: true
 
 transcribed_to:
   adapter:
@@ -35,6 +37,7 @@ transcribed_to:
   outdir: gencode/transcript
   nodes: False
   edges: True
+  load_initially: false
 
 transcribed_from:
   adapter:
@@ -48,6 +51,8 @@ transcribed_from:
   outdir: gencode/transcript
   nodes: False
   edges: True
+  load_initially: false
+
 uniprotkb_sprot:
   adapter:
     module: biocypher_metta.adapters.uniprot_protein_adapter
@@ -58,6 +63,7 @@ uniprotkb_sprot:
   outdir: uniprot
   nodes: True
   edges: False
+  load_initially: false
 
 uniprotkb_sprot_translates_to:
   adapter:
@@ -71,6 +77,7 @@ uniprotkb_sprot_translates_to:
   outdir: uniprot
   nodes: False
   edges: True
+  load_initially: false
 
 uniprotkb_sprot_translates_of:
   adapter:
@@ -84,6 +91,7 @@ uniprotkb_sprot_translates_of:
   outdir: uniprot
   nodes: False
   edges: True
+  load_initially: false
 
 pathway:
   adapter:
@@ -96,6 +104,7 @@ pathway:
   outdir: reactome
   nodes: True
   edges: False
+  load_initially: false
 
 genes_pathways:
   adapter:
@@ -108,6 +117,7 @@ genes_pathways:
   outdir: reactome
   nodes: False
   edges: True
+  load_initially: false
 
 parent_pathway_of:
   adapter:
@@ -120,6 +130,7 @@ parent_pathway_of:
   outdir: reactome
   nodes: False
   edges: True
+  load_initially: false
 
 child_pathway_of:
   adapter:
@@ -132,6 +143,7 @@ child_pathway_of:
   outdir: reactome
   nodes: False
   edges: True
+  load_initially: false
 
 go_ontology_terms:
   adapter:
@@ -147,6 +159,7 @@ go_ontology_terms:
   outdir: gene_onotology
   nodes: True
   edges: False
+  load_initially: false
 
 go_subclass_of:
   adapter:
@@ -162,6 +175,7 @@ go_subclass_of:
   outdir: gene_onotology
   nodes: False
   edges: True
+  load_initially: false
 
 gaf:
   adapter:
@@ -173,6 +187,7 @@ gaf:
   outdir: gaf
   nodes: False
   edges: True
+  load_initially: false
 
 coexpression:
   adapter:
@@ -185,6 +200,7 @@ coexpression:
   outdir: coxpressdb
   nodes: False
   edges: True
+  load_initially: false
 
 tflink:
   adapter:
@@ -197,6 +213,7 @@ tflink:
   outdir: tflink
   nodes: False
   edges: True
+  load_initially: false
 
 string:
   adapter:
@@ -209,6 +226,7 @@ string:
   outdir: string
   nodes: False
   edges: True
+  load_initially: false
 
 tadmap:
   adapter:
@@ -220,6 +238,7 @@ tadmap:
   outdir: tadmap
   nodes: True
   edges: False
+  load_initially: false
 
 tadmap_gene:
   adapter:
@@ -232,6 +251,7 @@ tadmap_gene:
   outdir: tadmap
   nodes: False
   edges: True
+  load_initially: false
 
 gtex_eqtl:
   adapter:
@@ -244,6 +264,7 @@ gtex_eqtl:
   outdir: gtex/eqtl
   nodes: False
   edges: True
+  load_initially: false
 
 gtex_expression:
   adapter:
@@ -257,6 +278,7 @@ gtex_expression:
   outdir: gtex/expression
   nodes: False
   edges: True
+  load_initially: false
 
 hocomoco:
   adapter:
@@ -270,6 +292,7 @@ hocomoco:
   outdir: hocomoco
   nodes: True
   edges: False
+  load_initially: false
 
 roadmap_chromatin_state:
   adapter:
@@ -283,6 +306,7 @@ roadmap_chromatin_state:
   outdir: roadmap/chromatin_state
   nodes: False
   edges: True
+  load_initially: false
 
 roadmap_h3_mark:
   adapter:
@@ -296,6 +320,7 @@ roadmap_h3_mark:
   outdir: roadmap/h3_mark
   nodes: False
   edges: True
+  load_initially: false
 
 roadmap_dhs:
   adapter:
@@ -309,6 +334,7 @@ roadmap_dhs:
   outdir: roadmap/dhs
   nodes: False
   edges: True
+  load_initially: false
 
 abc:
   adapter:
@@ -323,6 +349,7 @@ abc:
   outdir: abc
   nodes: False
   edges: True
+  load_initially: false
 
 cadd:
   adapter:
@@ -335,6 +362,7 @@ cadd:
   outdir: cadd
   nodes: True
   edges: False
+  load_initially: false
 
 refseq_closest_gene:
   adapter:
@@ -347,7 +375,8 @@ refseq_closest_gene:
 
   outdir: refseq
   nodes: False
-  edges: edge
+  edges: True
+  load_initially: false
 
 topld_eur:
   adapter:
@@ -362,6 +391,7 @@ topld_eur:
   outdir: top_ld/EUR
   nodes: False
   edges: True
+  load_initially: false
 
 gencode_exon:
   adapter:
@@ -373,6 +403,7 @@ gencode_exon:
   outdir: gencode/exon
   nodes: True
   edges: False
+  load_initially: false
 
 transcript_includes_exon:
   adapter:
@@ -384,6 +415,7 @@ transcript_includes_exon:
   outdir: gencode/exon
   nodes: False
   edges: True
+  load_initially: false
 
 rna_central_non_coding_rna:
   adapter:
@@ -396,6 +428,7 @@ rna_central_non_coding_rna:
   outdir: rna_central
   nodes: True
   edges: False
+  load_initially: false
 
 rna_central_non_coding_rna_belongs_to_go:
   adapter:
@@ -410,6 +443,7 @@ rna_central_non_coding_rna_belongs_to_go:
   outdir: rna_central
   nodes: False
   edges: True
+  load_initially: false
 
 dgv_variant:
   adapter:
@@ -421,6 +455,7 @@ dgv_variant:
   outdir: dgv
   nodes: True
   edges: False
+  load_initially: false
 
 epd_promoter:
   adapter:
@@ -433,6 +468,7 @@ epd_promoter:
   outdir: epd
   nodes: True
   edges: False
+  load_initially: false
 
 epd_promoter_regulates_gene:
   adapter:
@@ -447,6 +483,7 @@ epd_promoter_regulates_gene:
   outdir: epd
   nodes: False
   edges: True
+  load_initially: false
 
 dbvar_variant:
   adapter:
@@ -458,6 +495,7 @@ dbvar_variant:
   outdir: dbvar
   nodes: True
   edges: False
+  load_initially: false
 
 peregrine_enhancer:
   adapter:
@@ -473,6 +511,7 @@ peregrine_enhancer:
   outdir: peregrine
   nodes: True
   edges: False
+  load_initially: false
 
 peregrine_enhancer_regulates:
   adapter:
@@ -490,6 +529,7 @@ peregrine_enhancer_regulates:
   outdir: peregrine
   nodes: False
   edges: True
+  load_initially: false
 
 dbsuper_super_enhancer:
   adapter:
@@ -503,6 +543,7 @@ dbsuper_super_enhancer:
   outdir: dbsuper
   nodes: True
   edges: False
+  load_initially: false
 
 dbsuper_super_enhancer_regulates_gene:
   adapter:
@@ -518,6 +559,7 @@ dbsuper_super_enhancer_regulates_gene:
   outdir: dbsuper
   nodes: False
   edges: True
+  load_initially: false
 
 dbsnp_snps:
   adapter:
@@ -529,6 +571,7 @@ dbsnp_snps:
   outdir: dbsnp
   nodes: True
   edges: False
+  load_initially: false
 
 enhancer_atlas_enhancer:
   adapter:
@@ -542,6 +585,7 @@ enhancer_atlas_enhancer:
   outdir: enhancer_atlas
   nodes: True
   edges: False
+  load_initially: false
 
 enhancer_atlas_enhancer_regulates:
   adapter:
@@ -557,6 +601,7 @@ enhancer_atlas_enhancer_regulates:
   outdir: enhancer_atlas
   nodes: False
   edges: True
+  load_initially: false
 
 uberon:
   adapter:
@@ -571,6 +616,7 @@ uberon:
   outdir: uberon
   nodes: True
   edges: False
+  load_initially: false
 
 uberon_subclass_of:
   adapter:
@@ -585,6 +631,7 @@ uberon_subclass_of:
   outdir: uberon
   nodes: False
   edges: True
+  load_initially: false
 
 cell_line_ontology:
   adapter:
@@ -599,6 +646,7 @@ cell_line_ontology:
   outdir: cell_line_ontology
   nodes: True
   edges: False
+  load_initially: false
 
 clo_subclass_of:
   adapter:
@@ -613,6 +661,7 @@ clo_subclass_of:
   outdir: cell_line_ontology
   nodes: False
   edges: True
+  load_initially: false
 
 cell_ontology:
   adapter:
@@ -627,6 +676,7 @@ cell_ontology:
   outdir: cell_ontology
   nodes: True
   edges: False
+  load_initially: false
 
 cl_subclass_of:
   adapter:
@@ -641,6 +691,7 @@ cl_subclass_of:
   outdir: cell_ontology
   nodes: False
   edges: True
+  load_initially: false
 
 cl_capable_of:
   adapter:
@@ -655,6 +706,7 @@ cl_capable_of:
   outdir: cell_ontology
   nodes: False
   edges: True
+  load_initially: false
 
 cl_part_of:
   adapter:
@@ -669,6 +721,7 @@ cl_part_of:
   outdir: cell_ontology
   nodes: False
   edges: True
+  load_initially: false
 
 fabian_tf_snp:
   adapter:
@@ -682,6 +735,7 @@ fabian_tf_snp:
   outdir: fabian
   nodes: False
   edges: True
+  load_initially: false
 
 experimental_factor_ontology:
   adapter:
@@ -696,6 +750,7 @@ experimental_factor_ontology:
   outdir: experimental_factor_ontology
   nodes: True
   edges: False
+  load_initially: false
 
 efo_subclass_of:
   adapter:
@@ -710,6 +765,7 @@ efo_subclass_of:
   outdir: experimental_factor_ontology
   nodes: False
   edges: True
+  load_initially: false
 
 brenda_tissue_ontology:
   adapter:
@@ -724,6 +780,7 @@ brenda_tissue_ontology:
   outdir: brenda_tissue_ontology
   nodes: True
   edges: False
+  load_initially: false
 
 bto_subclass_of:
   adapter:
@@ -738,6 +795,7 @@ bto_subclass_of:
   outdir: brenda_tissue_ontology
   nodes: False
   edges: True
+  load_initially: false
 
 polyphen2:
   adapter:
@@ -749,6 +807,7 @@ polyphen2:
   outdir: polyphen-2
   nodes: True
   edges: False
+  load_initially: false
 
 bgee_gene_expressed_in_anatomical_entity:
   adapter:
@@ -759,6 +818,7 @@ bgee_gene_expressed_in_anatomical_entity:
   outdir: bgee
   nodes: False
   edges: True
+  load_initially: false
 
 transcription_factor_binding_site:
   adapter:
@@ -771,6 +831,7 @@ transcription_factor_binding_site:
   outdir: tfbs
   nodes: True
   edges: False
+  load_initially: false
 
 gene_tfbs_association:
   adapter:
@@ -783,6 +844,7 @@ gene_tfbs_association:
   outdir: tfbs
   nodes: False
   edges: True
+  load_initially: false
 
 snp_to_upstream_gene:
   adapter:
@@ -794,6 +856,7 @@ snp_to_upstream_gene:
   outdir: gwas/upstream
   nodes: False
   edges: True
+  load_initially: false
 
 snp_to_downstream_gene:
   adapter:
@@ -805,6 +868,7 @@ snp_to_downstream_gene:
   outdir: gwas/downstream
   nodes: False
   edges: True
+  load_initially: false
 
 snp_to_in_gene:
   adapter:
@@ -816,3 +880,4 @@ snp_to_in_gene:
   outdir: gwas/ingene
   nodes: False
   edges: True
+  load_initially: false

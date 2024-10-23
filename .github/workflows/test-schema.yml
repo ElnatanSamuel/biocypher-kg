@@ -48,6 +48,7 @@ jobs:
           echo "ADAPTERS_CONFIG=./config/adapters_config_sample.yaml" >> $GITHUB_ENV
           echo "DBSNP_RSIDS=./aux_files/sample_dbsnp_rsids.pkl" >> $GITHUB_ENV
           echo "DBSNP_POS=./aux_files/sample_dbsnp_pos.pkl" >> $GITHUB_ENV
+          echo "LOAD_ALL_ADAPTERS=false" >> $GITHUB_ENV  # Control loading of adapters
 
       - name: Run tests
         run: |
