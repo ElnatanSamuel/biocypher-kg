@@ -15,7 +15,7 @@ class TestBiocypherNode:
         
         for adapter_name, config in adapters_config.items():
             if config["nodes"]:
-                logging.info(f"Testing adapter: {adapter_name}")  # Log the adapter being tested
+                print(f"Testing adapter: {adapter_name}")  # Log the adapter being tested
                 
                 # Check if the adapter is already cached
                 if adapter_name not in adapter_cache:
@@ -39,7 +39,11 @@ class TestBiocypherNode:
                         adapter_class = getattr(adapter_module, config['adapter']['cls'])
                         
                         # Prepare the arguments for the adapter
-                        adapter_args = config['adapter']['args'].copy()
+                        adapter_args = config['adapter']['args'].copy()               
+                        if "dbsnp_rsid_map" in adapter_args: #this for dbs that use grch37 assembly and to map grch37 to grch38
+                             adapter_args["dbsnp_rsid_map"] = dbsnp_rsids_dict
+                        if "dbsnp_pos_map" in adapter_args:
+                             adapter_args["dbsnp_pos_map"] = dbsnp_pos_dict
                         adapter_args['write_properties'] = True
                         adapter_args['add_provenance'] = True
                         
