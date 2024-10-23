@@ -43,18 +43,18 @@ jobs:
         run: |
           poetry install --no-interaction --no-ansi # Skip dev dependencies if not needed
 
-      - name: Check installed packages
-        run: |
-          poetry show
+      # - name: Check installed packages
+      #   run: |
+      #     poetry show
 
-      - name: Install PyYAML
-        run: |
-          pip install pyyaml
+      # - name: Install PyYAML
+      #   run: |
+      #     pip install pyyaml
 
       - name: Initialize Adapters
         run: |
           echo "Initializing adapters..."
-          python test/adapter_initialization_script.py ./config/adapters_config_sample.yaml
+          poetry run python test/adapter_initialization_script.py ./config/adapters_config_sample.yaml
 
       - name: Run tests
         run: |
