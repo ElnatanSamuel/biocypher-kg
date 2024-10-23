@@ -47,6 +47,10 @@ jobs:
         run: |
           poetry show
 
+      - name: Install PyYAML
+        run: |
+          pip install pyyaml
+
       - name: Initialize Adapters
         run: |
           echo "Initializing adapters..."
