@@ -1,6 +1,7 @@
 import sys
 import re
 import os
+import subprocess
 
 def toggle_adapters(file_path, adapters_to_toggle, comment=True):
     with open(file_path, 'r') as file:
@@ -45,15 +46,18 @@ def main(file_path):
         # Uncomment the current adapters
         toggle_adapters(file_path, current_adapters, comment=False)
 
-        # Here you would run your tests
-        # For example, you can call your test command here
-        # os.system("pytest test/test_nodes.py")  # Uncomment this line to run tests
+        # Run your tests and capture the result
+        result = subprocess.run(
+            ["pytest", "test/test_nodes.py", "--adapters-config", file_path],
+            capture_output=True,
+            text=True
+        )
 
-        # Simulate test success/failure (replace this with actual test result checking)
-        test_success = True  # Change this based on actual test results
-
-        if not test_success:
+        # Check the result of the test run
+        if result.returncode != 0:
             print(f"Adapters {current_adapters} failed. Stopping further tests.")
+            print(result.stdout)  # Print the output for debugging
+            print(result.stderr)  # Print the error output for debugging
             break
         else:
             print(f"Adapters {current_adapters} passed.")

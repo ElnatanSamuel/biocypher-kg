@@ -22,7 +22,10 @@ class TestBiocypherNode:
             logging.info(f"Testing adapter: {adapter_name}")  # Log the adapter being tested
             config = adapters_config[adapter_name]
             
-            if config["nodes"]:
+            # Debugging output
+            logging.info(f"Config for adapter '{adapter_name}': {config}")
+
+            if config["nodes"]:  # This line is causing the error
                 adapter_module = importlib.import_module(config['adapter']['module'])
                 adapter_class = getattr(adapter_module, config['adapter']['cls'])
                 
