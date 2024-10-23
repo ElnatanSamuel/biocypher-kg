@@ -13,7 +13,6 @@ class TestBiocypherNode:
         logging.info("Starting node tests...")  # Log the start of the test
         node_labels, edges_schema, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict = setup_class
         
-        # Read the environment variable to control loading of adapters
         load_all_adapters = os.getenv("LOAD_ALL_ADAPTERS", "true").lower() == "true"
         initial_chunk_size = 4  # Number of adapters to load initially
         adapter_names = list(adapters_config.keys())  # Get all adapter names
@@ -52,10 +51,10 @@ class TestBiocypherNode:
 
         else:
             # Load only the initial chunk
-            initial_chunk = [name for name, config in adapters_config.items() if config.get("load_initially", False)]
+            initial_chunk = adapter_names[:initial_chunk_size]
             logging.info(f"Processing initial chunk: {initial_chunk}")  # Log the initial chunk being processed
             
-            for adapter_name in initial_chunk[:initial_chunk_size]:
+            for adapter_name in initial_chunk:
                 config = adapters_config[adapter_name]
                 if config["nodes"]:
                     logging.info(f"Testing adapter: {adapter_name}")  # Log the adapter being tested
@@ -87,7 +86,7 @@ class TestBiocypherNode:
             logging.info("Initial chunk tests completed.")  # Log completion of the initial chunk
 
             # Load remaining adapters in chunks
-            remaining_adapter_names = [name for name in adapter_names if name not in initial_chunk[:initial_chunk_size]]
+            remaining_adapter_names = adapter_names[initial_chunk_size:]
             for i in range(0, len(remaining_adapter_names), initial_chunk_size):
                 chunk = remaining_adapter_names[i:i + initial_chunk_size]  # Get the next chunk of adapter names
                 logging.info(f"Processing remaining chunk: {chunk}")  # Log the current chunk being processed
