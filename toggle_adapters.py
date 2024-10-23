@@ -48,7 +48,7 @@ def main(file_path):
 
         # Run your tests and capture the result
         result = subprocess.run(
-            ["pytest", "test/test_nodes.py", "--adapters-config", file_path],
+            ["poetry", "run", "pytest", "test/test_nodes.py", "--adapters-config", file_path],
             capture_output=True,
             text=True
         )

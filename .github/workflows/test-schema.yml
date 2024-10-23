@@ -43,18 +43,10 @@ jobs:
         run: |
           poetry install --no-interaction --no-ansi # Skip dev dependencies if not needed
 
-      - name: Toggle adapters
+      - name: Comment out adapters
         run: |
           python toggle_adapters.py ./config/adapters_config_sample.yaml
 
-      - name: Set environment variables
-        run: |
-          echo "ADAPTERS_CONFIG=./config/adapters_config_sample.yaml" >> $GITHUB_ENV
-          echo "DBSNP_RSIDS=./aux_files/sample_dbsnp_rsids.pkl" >> $GITHUB_ENV
-          echo "DBSNP_POS=./aux_files/sample_dbsnp_pos.pkl" >> $GITHUB_ENV
-          echo "LOAD_ALL_ADAPTERS=false" >> $GITHUB_ENV  # Control loading of adapters
-          echo "ADAPTERS_TO_LOAD=gencode_gene,gencode_transcripts" >> $GITHUB_ENV
-
       - name: Run tests
         run: |
-          poetry run pytest ${{ matrix.test_file }} --adapters-config=$ADAPTERS_CONFIG --dbsnp-rsids=$DBSNP_RSIDS --dbsnp-pos=$DBSNP_POS -vv -s
+          poetry run pytest ${{ matrix.test_file }} --adapters-config=./config/adapters_config_sample.yaml --dbsnp-rsids=./aux_files/sample_dbsnp_rsids.pkl --dbsnp-pos=./aux_files/sample_dbsnp_pos.pkl -vv -s
