@@ -54,7 +54,7 @@ jobs:
       - name: Initialize Adapters
         run: |
           echo "Initializing adapters..."
-          python test/adapter_initialization_script.py --adapters-config=./config/adapters_config_sample.yaml
+          python test/adapter_initialization_script.py ./config/adapters_config_sample.yaml
 
       - name: Run tests
         run: |

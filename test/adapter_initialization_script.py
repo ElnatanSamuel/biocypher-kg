@@ -46,5 +46,6 @@ if __name__ == "__main__":
         print("Usage: python adapter_initialization_script.py <adapters_config_path>")
         sys.exit(1)
 
+    # Extract the config path directly from the argument
     config_path = sys.argv[1]
     initialize_adapters(config_path)
