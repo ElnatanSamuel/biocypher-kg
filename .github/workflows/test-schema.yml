@@ -43,6 +43,10 @@ jobs:
         run: |
           poetry install --no-interaction --no-ansi # Skip dev dependencies if not needed
 
+      - name: Check installed packages
+        run: |
+          poetry show
+
       - name: Initialize Adapters
         run: |
           echo "Initializing adapters..."
