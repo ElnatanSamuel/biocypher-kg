@@ -49,6 +49,7 @@ jobs:
           echo "DBSNP_RSIDS=./aux_files/sample_dbsnp_rsids.pkl" >> $GITHUB_ENV
           echo "DBSNP_POS=./aux_files/sample_dbsnp_pos.pkl" >> $GITHUB_ENV
           echo "LOAD_ALL_ADAPTERS=false" >> $GITHUB_ENV  # Control loading of adapters
+          echo "ADAPTERS_TO_LOAD=gencode_gene,gencode_transcripts" >> $GITHUB_ENV  # Specify adapters to load
 
       - name: Run tests
         run: |
