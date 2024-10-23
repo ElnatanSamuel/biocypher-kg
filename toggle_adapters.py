@@ -35,6 +35,10 @@ def main(file_path):
     all_adapters = get_all_adapters(file_path)
     total_adapters = len(all_adapters)
 
+    # Define paths for dbsnp files
+    dbsnp_rsids_path = './aux_files/sample_dbsnp_rsids.pkl'
+    dbsnp_pos_path = './aux_files/sample_dbsnp_pos.pkl'
+
     # Process adapters in chunks of 2
     for i in range(0, total_adapters, 2):
         # Determine which adapters to toggle
@@ -48,7 +52,10 @@ def main(file_path):
 
         # Run your tests and capture the result
         result = subprocess.run(
-            ["poetry", "run", "pytest", "test/test_nodes.py", "--adapters-config", file_path],
+            ["poetry", "run", "pytest", "test/test_nodes.py", 
+             "--adapters-config", file_path, 
+             "--dbsnp-rsids", dbsnp_rsids_path, 
+             "--dbsnp-pos", dbsnp_pos_path],
             capture_output=True,
             text=True
         )
