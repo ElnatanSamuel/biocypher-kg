@@ -13,27 +13,17 @@ class TestBiocypherNode:
         logging.info("Starting node tests...")  # Log the start of the test
         node_labels, edges_schema, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict = setup_class
         
-        load_all_adapters = os.getenv("LOAD_ALL_ADAPTERS", "true").lower() == "true"
-        adapters_to_load = os.getenv("ADAPTERS_TO_LOAD", "").split(",")  # Get the list of adapters to load
-        initial_chunk_size = 4  # Number of adapters to load initially
-        adapter_names = list(adapters_config.keys())  # Get all adapter names
+        # Start with a limited number of adapters
+        initial_adapters_to_load = os.getenv("ADAPTERS_TO_LOAD", "gencode_gene,gencode_transcripts").split(",")
+        all_adapter_names = list(adapters_config.keys())  # Get all adapter names
 
-        # Phase 1: Load specified adapters
-        if load_all_adapters:
-            logging.info("Loading all adapters...")
-            adapter_names_to_test = adapter_names
-        else:
-            # Filter adapters based on the environment variable
-            if adapters_to_load:
-                adapter_names_to_test = [name for name in adapter_names if name in adapters_to_load]
-            else:
-                adapter_names_to_test = adapter_names[:initial_chunk_size]  # Default to initial chunk if no specific adapters are set
+        # Phase 1: Load specified initial adapters
+        for adapter_name in initial_adapters_to_load:
+            if adapter_name in all_adapter_names:
+                self.test_adapter(adapter_name, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict, node_labels)
 
-        for adapter_name in adapter_names_to_test:
-            self.test_adapter(adapter_name, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict, node_labels)
-
-        # Phase 2: Load remaining adapters
-        remaining_adapter_names = [name for name in adapter_names if name not in adapter_names_to_test]
+        # Phase 2: Load remaining adapters one by one
+        remaining_adapter_names = [name for name in all_adapter_names if name not in initial_adapters_to_load]
         for adapter_name in remaining_adapter_names:
             self.test_adapter(adapter_name, adapters_config, dbsnp_rsids_dict, dbsnp_pos_dict, node_labels)
 
