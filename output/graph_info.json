@@ -1,0 +1,69 @@
+{
+  "node_count": 0,
+  "edge_count": 380,
+  "dataset_count": 1,
+  "data_size": "0.00 GB",
+  "top_entities": [],
+  "top_connections": [
+    {
+      "name": "transcribed_to",
+      "count": 190
+    },
+    {
+      "name": "transcribed_from",
+      "count": 190
+    }
+  ],
+  "frequent_relationships": [
+    {
+      "entities": [
+        "gene",
+        "transcript"
+      ],
+      "count": 190
+    },
+    {
+      "entities": [
+        "transcript",
+        "gene"
+      ],
+      "count": 190
+    }
+  ],
+  "schema": {
+    "nodes": [],
+    "edges": [
+      {
+        "data": {
+          "source": "gene",
+          "target": "transcript",
+          "possible_connections": [
+            "transcribed_to"
+          ]
+        }
+      },
+      {
+        "data": {
+          "source": "transcript",
+          "target": "gene",
+          "possible_connections": [
+            "transcribed_from"
+          ]
+        }
+      }
+    ]
+  },
+  "datasets": [
+    {
+      "name": "GENCODE",
+      "version": "v44",
+      "url": "https://www.gencodegenes.org/human/",
+      "nodes": [],
+      "edges": [
+        "transcribed_from",
+        "transcribed_to"
+      ],
+      "imported_on": "2024-10-29"
+    }
+  ]
+}

@@ -16,6 +16,7 @@ from typing_extensions import Annotated
 import pickle
 import json
 from collections import Counter, defaultdict
+import time
 
 app = typer.Typer()
 
@@ -106,28 +107,76 @@ def gather_graph_info(nodes_count, nodes_props, edges_count, schema_dict, output
 
     return graph_info
 
+class LazyAdapterLoader:
+    def __init__(self):
+        self._adapter_cache = {}
+        self._adapter_last_modified = {}
+        
+    def get_adapter(self, adapter_name, config, dbsnp_rsids_dict=None, dbsnp_pos_dict=None):
+        if self._should_load_adapter(adapter_name, config):
+            adapter = self._create_adapter_instance(adapter_name, config, dbsnp_rsids_dict, dbsnp_pos_dict)
+            self._cache_adapter(adapter_name, adapter)
+        return self._adapter_cache[adapter_name]
+    
+    def _should_load_adapter(self, adapter_name, config):
+        # Check if adapter exists in cache
+        if adapter_name not in self._adapter_cache:
+            return True
+            
+        # Check if config file has changed
+        config_file = './config/adapters_config_sample.yaml'
+        config_modified = os.path.getmtime(config_file)
+        
+        # Check if data file has changed (if exists)
+        data_modified = None
+        if 'args' in config['adapter'] and 'filepath' in config['adapter']['args']:
+            filepath = config['adapter']['args']['filepath']
+            if os.path.exists(filepath):
+                data_modified = os.path.getmtime(filepath)
+        
+        last_modified = max(filter(None, [config_modified, data_modified])) if data_modified else config_modified
+        
+        # Check if adapter needs reloading
+        return (adapter_name not in self._adapter_last_modified or 
+                self._adapter_last_modified[adapter_name] < last_modified)
+
+    def _create_adapter_instance(self, adapter_name, config, dbsnp_rsids_dict, dbsnp_pos_dict):
+        adapter_module = importlib.import_module(config['adapter']['module'])
+        adapter_class = getattr(adapter_module, config['adapter']['cls'])
+        
+        adapter_args = config['adapter']['args'].copy()
+        if "dbsnp_rsid_map" in adapter_args:
+            adapter_args["dbsnp_rsid_map"] = dbsnp_rsids_dict
+        if "dbsnp_pos_map" in adapter_args:
+            adapter_args["dbsnp_pos_map"] = dbsnp_pos_dict
+        adapter_args['write_properties'] = True
+        adapter_args['add_provenance'] = True
+        
+        return adapter_class(**adapter_args)
+    
+    def _cache_adapter(self, adapter_name, adapter):
+        self._adapter_cache[adapter_name] = adapter
+        self._adapter_last_modified[adapter_name] = time.time()
+
 def process_adapters(adapters_dict, dbsnp_rsids_dict, dbsnp_pos_dict, writer, write_properties, add_provenance, schema_dict):
     nodes_count = Counter()
     nodes_props = defaultdict(set)
     edges_count = Counter()
     datasets_dict = {}
+    adapter_loader = LazyAdapterLoader()
 
     for c in adapters_dict:
-        writer.clear_counts() # Reset counter for this adapter
+        writer.clear_counts()
         logger.info(f"Running adapter: {c}")
         adapter_config = adapters_dict[c]["adapter"]
-        adapter_module = importlib.import_module(adapter_config["module"])
-        adapter_cls = getattr(adapter_module, adapter_config["cls"])
-        ctr_args = adapter_config["args"]
-
-        if "dbsnp_rsid_map" in ctr_args: #this for dbs that use grch37 assembly and to map grch37 to grch38
-            ctr_args["dbsnp_rsid_map"] = dbsnp_rsids_dict
-        if "dbsnp_pos_map" in ctr_args:
-            ctr_args["dbsnp_pos_map"] = dbsnp_pos_dict
-        ctr_args["write_properties"] = write_properties
-        ctr_args["add_provenance"] = add_provenance
-
-        adapter = adapter_cls(**ctr_args)
+        
+        adapter = adapter_loader.get_adapter(
+            c, 
+            adapter_config, 
+            dbsnp_rsids_dict, 
+            dbsnp_pos_dict
+        )
+        
         write_nodes = adapters_dict[c]["nodes"]
         write_edges = adapters_dict[c]["edges"]
         outdir = adapters_dict[c]["outdir"]
