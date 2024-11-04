@@ -15,6 +15,29 @@ position entity:
     start: int
     end: int
 
+# Add this section for the EXPRESSED_IN relationship
+EXPRESSED_IN:
+  output_label: expressed_in  # lowercase version for Neo4j
+  properties:
+    confidence_score:
+      type: float
+      description: Confidence score of the expression relationship
+    nTPM:
+      type: float
+      description: Normalized TPM value for RNA expression
+    evidence_type:
+      type: str
+      description: Type of evidence (RNA_expression or protein_expression)
+    source:
+      type: str
+      description: Data source (Human Protein Atlas)
+    source_url:
+      type: str
+      description: URL of the data source
+    version:
+      type: str
+      description: Version of the data
+
 coding element:
   represented_as: node
   is_a: position entity

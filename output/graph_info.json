@@ -1,0 +1,48 @@
+{
+  "node_count": 0,
+  "edge_count": 491,
+  "dataset_count": 1,
+  "data_size": "0.00 GB",
+  "top_entities": [],
+  "top_connections": [
+    {
+      "name": "expressed_in",
+      "count": 491
+    }
+  ],
+  "frequent_relationships": [
+    {
+      "entities": [
+        "gene",
+        "ontology_term"
+      ],
+      "count": 491
+    }
+  ],
+  "schema": {
+    "nodes": [],
+    "edges": [
+      {
+        "data": {
+          "source": "gene",
+          "target": "ontology_term",
+          "possible_connections": [
+            "expressed_in"
+          ]
+        }
+      }
+    ]
+  },
+  "datasets": [
+    {
+      "name": "Human_Protein_Atlas",
+      "version": "23.0",
+      "url": "https://www.proteinatlas.org/",
+      "nodes": [],
+      "edges": [
+        "expressed_in"
+      ],
+      "imported_on": "2024-11-04"
+    }
+  ]
+}
